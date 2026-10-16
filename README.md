@@ -8,11 +8,9 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 |---|---|---|
 | `WorldCups.csv` | One row per tournament | 20 |
 | `WorldCupMatches.csv` | One row per match | 836 |
-| `WorldCupPlayers.csv` | One row per player per match | 37,048 |
 
 - `WorldCups.Year` ↔ `WorldCupMatches.Year`
-- `WorldCupMatches.MatchID` (+ `RoundID`) ↔ `WorldCupPlayers.MatchID` (+ `RoundID`)
-- `WorldCupMatches.Home/Away Team Initials` ↔ `WorldCupPlayers.Team Initials`
+- The source dataset's `WorldCupPlayers.csv` (player line-ups and match events) has been removed from this copy.
 
 ## WorldCups.csv
 
@@ -54,27 +52,12 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | Home Team Initials | text | 3-letter FIFA code for the home team |
 | Away Team Initials | text | 3-letter FIFA code for the away team |
 
-## WorldCupPlayers.csv
-
-| Column | Type | Description |
-|---|---|---|
-| RoundID | int | Round identifier (FK to matches) |
-| MatchID | int | Match identifier (FK to matches) |
-| Team Initials | text | 3-letter FIFA code of the player's team |
-| Coach Name | text | Team coach, `SURNAME Firstname (NAT)` |
-| Line-up | char | `S` = starter, `N` = not starting (substitute or unused) |
-| Shirt Number | int | Shirt number (`0` = unknown, common in early tournaments) |
-| Player Name | text | Player name |
-| Position | text | Only special roles are recorded: `GK` goalkeeper, `C` captain, `GKC` goalkeeper and captain; blank otherwise |
-| Event | text | Space-separated match events, each a code plus a minute, e.g. `G43' G87'` |
-
-**Event codes:** `G` goal · `P` penalty goal · `W` own goal · `MP` missed penalty · `Y` yellow card · `RSY` red card from a second yellow · `R` red card · `I` substituted in · `O` substituted out · `IH` / `OH` substituted in / out at half-time. The source doesn't document these codes; they were inferred from the data.
-
 ## Data quality notes
 
 - **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
-- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. It also repeated their line-ups (736 identical player rows). The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
-- **Encoding:** some names are mangled by mis-encoded UTF-8 (e.g. `C�te d'Ivoire`, `rn">Bosnia and Herzegovina`).
+- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
+- **Encoding:** mangled team, stadium and city names have been fixed. Examples: `C�te d'Ivoire` → `Côte d'Ivoire`, `rn">Republic of Ireland` → `Republic of Ireland`, `Malm�` → `Malmö`, `Stade V�lodrome` → `Stade Vélodrome`. Some referee names still have accented characters replaced by `�`, e.g. `Bj�rn KUIPERS (NED)`.
+- **Inconsistent naming:** Iran appears as both `Iran` and `IR Iran` (both use `IRN`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
-- **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions` in the matches file and from `Player Name` in the players file.
+- **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions`.
 - **Attendance (cleaned):** `WorldCups.Attendance` originally used `.` as a thousands separator (e.g. `3.386.810`). The dots have been removed, so it is now a plain integer.
