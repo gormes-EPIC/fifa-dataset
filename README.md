@@ -27,22 +27,22 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | GoalsScored | int | Total goals in the tournament |
 | QualifiedTeams | int | Number of teams in the finals |
 | MatchesPlayed | int | Number of matches played |
-| Attendance | text | Total attendance, using `.` as a thousands separator (e.g. `3.386.810`). Strip the dots before converting to int |
+| Attendance | int | Total tournament attendance |
 
 ## WorldCupMatches.csv
 
 | Column | Type | Description |
 |---|---|---|
 | Year | int | Tournament year |
-| Datetime | text | Kick-off local date/time, e.g. `13 Jul 1930 - 15:00` (has trailing whitespace) |
+| Datetime | text | Kick-off local date/time, e.g. `13 Jul 1930 - 15:00` |
 | Stage | text | Round, e.g. `Group A`, `Group 1`, `Round of 16`, `Quarter-finals`, `Semi-finals`, `Final`, plus several names for the third-place match |
 | Stadium | text | Stadium name |
-| City | text | Host city (has trailing whitespace) |
+| City | text | Host city |
 | Home Team Name | text | Home (first-listed) team |
 | Home Team Goals | int | Full-time goals for the home team, including extra time |
 | Away Team Goals | int | Full-time goals for the away team, including extra time |
 | Away Team Name | text | Away (second-listed) team |
-| Win conditions | text | Notes on extra time or penalties, e.g. `Italy win after extra time`; otherwise blank or a single space |
+| Win conditions | text | Notes on extra time or penalties, e.g. `Italy win after extra time`; blank otherwise |
 | Attendance | int | Match attendance (2 missing) |
 | Half-time Home Goals | int | Home goals at half-time |
 | Half-time Away Goals | int | Away goals at half-time |
@@ -76,4 +76,5 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 - **Duplicates:** the 852 match rows contain only 836 unique `MatchID`s. Deduplicate on `MatchID`.
 - **Encoding:** some names are mangled by mis-encoded UTF-8 (e.g. `C�te d'Ivoire`, `rn">Bosnia and Herzegovina`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
-- **Whitespace:** text fields such as `Datetime`, `City`, and `Win conditions` have extra spaces. Strip them before use.
+- **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions` in the matches file and from `Player Name` in the players file.
+- **Attendance (cleaned):** `WorldCups.Attendance` originally used `.` as a thousands separator (e.g. `3.386.810`). The dots have been removed, so it is now a plain integer.
