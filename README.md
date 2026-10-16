@@ -7,8 +7,8 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | File | Grain | Rows |
 |---|---|---|
 | `WorldCups.csv` | One row per tournament | 20 |
-| `WorldCupMatches.csv` | One row per match | 852 |
-| `WorldCupPlayers.csv` | One row per player per match | 37,784 |
+| `WorldCupMatches.csv` | One row per match | 836 |
+| `WorldCupPlayers.csv` | One row per player per match | 37,048 |
 
 - `WorldCups.Year` ↔ `WorldCupMatches.Year`
 - `WorldCupMatches.MatchID` (+ `RoundID`) ↔ `WorldCupPlayers.MatchID` (+ `RoundID`)
@@ -50,7 +50,7 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | Assistant 1 | text | First assistant referee, same format |
 | Assistant 2 | text | Second assistant referee, same format |
 | RoundID | int | Round identifier |
-| MatchID | int | Match identifier |
+| MatchID | int | Match identifier (unique) |
 | Home Team Initials | text | 3-letter FIFA code for the home team |
 | Away Team Initials | text | 3-letter FIFA code for the away team |
 
@@ -73,7 +73,7 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 ## Data quality notes
 
 - **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
-- **Duplicates:** the 852 match rows contain only 836 unique `MatchID`s. Deduplicate on `MatchID`.
+- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. It also repeated their line-ups (736 identical player rows). The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
 - **Encoding:** some names are mangled by mis-encoded UTF-8 (e.g. `C�te d'Ivoire`, `rn">Bosnia and Herzegovina`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
 - **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions` in the matches file and from `Player Name` in the players file.
