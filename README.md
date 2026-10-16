@@ -1,0 +1,79 @@
+# FIFA World Cup Data Dictionary
+
+Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/abecklas/fifa-world-cup). Covers the men's World Cups from 1930 to 2014.
+
+## Files & relationships
+
+| File | Grain | Rows |
+|---|---|---|
+| `WorldCups.csv` | One row per tournament | 20 |
+| `WorldCupMatches.csv` | One row per match | 852 (+3,720 blank trailing rows) |
+| `WorldCupPlayers.csv` | One row per player per match | 37,784 |
+
+- `WorldCups.Year` ↔ `WorldCupMatches.Year`
+- `WorldCupMatches.MatchID` (+ `RoundID`) ↔ `WorldCupPlayers.MatchID` (+ `RoundID`)
+- `WorldCupMatches.Home/Away Team Initials` ↔ `WorldCupPlayers.Team Initials`
+
+## WorldCups.csv
+
+| Column | Type | Description |
+|---|---|---|
+| Year | int | Tournament year |
+| Country | text | Host country |
+| Winner | text | Champion |
+| Runners-Up | text | 2nd place |
+| Third | text | 3rd place |
+| Fourth | text | 4th place |
+| GoalsScored | int | Total goals in the tournament |
+| QualifiedTeams | int | Number of teams in the finals |
+| MatchesPlayed | int | Number of matches played |
+| Attendance | text | Total attendance, using `.` as a thousands separator (e.g. `3.386.810`). Strip the dots before converting to int |
+
+## WorldCupMatches.csv
+
+| Column | Type | Description |
+|---|---|---|
+| Year | int | Tournament year |
+| Datetime | text | Kick-off local date/time, e.g. `13 Jul 1930 - 15:00` (has trailing whitespace) |
+| Stage | text | Round, e.g. `Group A`, `Group 1`, `Round of 16`, `Quarter-finals`, `Semi-finals`, `Final`, plus several names for the third-place match |
+| Stadium | text | Stadium name |
+| City | text | Host city (has trailing whitespace) |
+| Home Team Name | text | Home (first-listed) team |
+| Home Team Goals | int | Full-time goals for the home team, including extra time |
+| Away Team Goals | int | Full-time goals for the away team, including extra time |
+| Away Team Name | text | Away (second-listed) team |
+| Win conditions | text | Notes on extra time or penalties, e.g. `Italy win after extra time`; otherwise blank or a single space |
+| Attendance | int | Match attendance (2 missing) |
+| Half-time Home Goals | int | Home goals at half-time |
+| Half-time Away Goals | int | Away goals at half-time |
+| Referee | text | Referee, `SURNAME Firstname (NAT)` |
+| Assistant 1 | text | First assistant referee, same format |
+| Assistant 2 | text | Second assistant referee, same format |
+| RoundID | int | Round identifier |
+| MatchID | int | Match identifier |
+| Home Team Initials | text | 3-letter FIFA code for the home team |
+| Away Team Initials | text | 3-letter FIFA code for the away team |
+
+## WorldCupPlayers.csv
+
+| Column | Type | Description |
+|---|---|---|
+| RoundID | int | Round identifier (FK to matches) |
+| MatchID | int | Match identifier (FK to matches) |
+| Team Initials | text | 3-letter FIFA code of the player's team |
+| Coach Name | text | Team coach, `SURNAME Firstname (NAT)` |
+| Line-up | char | `S` = starter, `N` = not starting (substitute or unused) |
+| Shirt Number | int | Shirt number (`0` = unknown, common in early tournaments) |
+| Player Name | text | Player name |
+| Position | text | Only special roles are recorded: `GK` goalkeeper, `C` captain, `GKC` goalkeeper and captain; blank otherwise |
+| Event | text | Space-separated match events, each a code plus a minute, e.g. `G43' G87'` |
+
+**Event codes:** `G` goal · `P` penalty goal · `W` own goal · `MP` missed penalty · `Y` yellow card · `RSY` red card from a second yellow · `R` red card · `I` substituted in · `O` substituted out · `IH` / `OH` substituted in / out at half-time. The source doesn't document these codes; they were inferred from the data.
+
+## Data quality notes
+
+- **Blank rows:** `WorldCupMatches.csv` ends with about 3,720 empty rows. Drop rows where `Year` is null.
+- **Duplicates:** the 852 match rows contain only 836 unique `MatchID`s. Deduplicate on `MatchID`.
+- **Encoding:** some names are mangled by mis-encoded UTF-8 (e.g. `C�te d'Ivoire`, `rn">Bosnia and Herzegovina`).
+- **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
+- **Whitespace:** text fields such as `Datetime`, `City`, and `Win conditions` have extra spaces. Strip them before use.
