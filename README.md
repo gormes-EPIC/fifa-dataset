@@ -10,7 +10,6 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | `WorldCupMatches.csv` | One row per match | 836 |
 
 - `WorldCups.Year` ↔ `WorldCupMatches.Year`
-- The source dataset's `WorldCupPlayers.csv` (player line-ups and match events) has been removed from this copy.
 
 ## WorldCups.csv
 
@@ -53,11 +52,10 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | Away Team Initials | text | 3-letter FIFA code for the away team |
 
 ## Data quality notes
-
-- **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
-- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
-- **Encoding:** mangled team, stadium and city names have been fixed. Examples: `C�te d'Ivoire` → `Côte d'Ivoire`, `rn">Republic of Ireland` → `Republic of Ireland`, `Malm�` → `Malmö`, `Stade V�lodrome` → `Stade Vélodrome`. Some referee names still have accented characters replaced by `�`, e.g. `Bj�rn KUIPERS (NED)`.
 - **Inconsistent naming:** Iran appears as both `Iran` and `IR Iran` (both use `IRN`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
+- **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
+- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
+- **Encoding (cleaned):** mangled team, stadium and city names have been fixed. Examples: `C�te d'Ivoire` → `Côte d'Ivoire`, `rn">Republic of Ireland` → `Republic of Ireland`, `Malm�` → `Malmö`, `Stade V�lodrome` → `Stade Vélodrome`. Some referee names still have accented characters replaced by `�`, e.g. `Bj�rn KUIPERS (NED)`.
 - **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions`.
 - **Attendance (cleaned):** `WorldCups.Attendance` originally used `.` as a thousands separator (e.g. `3.386.810`). The dots have been removed, so it is now a plain integer.
