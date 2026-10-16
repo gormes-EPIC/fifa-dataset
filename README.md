@@ -7,7 +7,7 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | File | Grain | Rows |
 |---|---|---|
 | `WorldCups.csv` | One row per tournament | 20 |
-| `WorldCupMatches.csv` | One row per match | 852 (+3,720 blank trailing rows) |
+| `WorldCupMatches.csv` | One row per match | 852 |
 | `WorldCupPlayers.csv` | One row per player per match | 37,784 |
 
 - `WorldCups.Year` ↔ `WorldCupMatches.Year`
@@ -72,7 +72,7 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 
 ## Data quality notes
 
-- **Blank rows:** `WorldCupMatches.csv` ends with about 3,720 empty rows. Drop rows where `Year` is null.
+- **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
 - **Duplicates:** the 852 match rows contain only 836 unique `MatchID`s. Deduplicate on `MatchID`.
 - **Encoding:** some names are mangled by mis-encoded UTF-8 (e.g. `C�te d'Ivoire`, `rn">Bosnia and Herzegovina`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
