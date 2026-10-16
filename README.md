@@ -6,12 +6,14 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 
 | File | Grain | Rows |
 |---|---|---|
-| `WorldCups.csv` | One row per tournament | 20 |
-| `WorldCupMatches.csv` | One row per match | 836 |
+| `tournaments.csv` | One row per tournament | 20 |
+| `matches.csv` | One row per match | 836 |
 
-- `WorldCups.Year` ↔ `WorldCupMatches.Year`
+- `tournaments.Year` ↔ `matches.Year`
 
-## WorldCups.csv
+The files were renamed from the original Kaggle names: `WorldCups.csv` → `tournaments.csv` and `WorldCupMatches.csv` → `matches.csv`.
+
+## tournaments.csv
 
 | Column | Type | Description |
 |---|---|---|
@@ -26,7 +28,7 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 | MatchesPlayed | int | Number of matches played |
 | Attendance | int | Total tournament attendance |
 
-## WorldCupMatches.csv
+## matches.csv
 
 | Column | Type | Description |
 |---|---|---|
@@ -54,8 +56,8 @@ Source: [Kaggle – FIFA World Cup (abecklas)](https://www.kaggle.com/datasets/a
 ## Data quality notes
 - **Inconsistent naming:** Iran appears as both `Iran` and `IR Iran` (both use `IRN`).
 - **Historical names:** teams appear under the names they had at the time, e.g. `Germany FR`, `Soviet Union`, `Czechoslovakia`, `Yugoslavia`, `Zaire`.
-- **Blank rows (removed):** the original `WorldCupMatches.csv` ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
-- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `WorldCups.MatchesPlayed`.
+- **Blank rows (removed):** `matches.csv` originally ended with 3,720 empty rows (`,,,…`). They have been deleted from this copy.
+- **Duplicates (removed):** the original data listed 16 of the 2014 knockout matches twice: 852 match rows, but only 836 unique `MatchID`s. The copies have been deleted, so every `MatchID` is now unique, and match counts per year agree with `tournaments.MatchesPlayed`.
 - **Encoding (cleaned):** mangled team, stadium and city names have been fixed. Examples: `C�te d'Ivoire` → `Côte d'Ivoire`, `rn">Republic of Ireland` → `Republic of Ireland`, `Malm�` → `Malmö`, `Stade V�lodrome` → `Stade Vélodrome`. Some referee names still have accented characters replaced by `�`, e.g. `Bj�rn KUIPERS (NED)`.
 - **Whitespace (cleaned):** leading and trailing spaces have been removed from `Datetime`, `City` and `Win conditions`.
-- **Attendance (cleaned):** `WorldCups.Attendance` originally used `.` as a thousands separator (e.g. `3.386.810`). The dots have been removed, so it is now a plain integer.
+- **Attendance (cleaned):** `tournaments.Attendance` originally used `.` as a thousands separator (e.g. `3.386.810`). The dots have been removed, so it is now a plain integer.
